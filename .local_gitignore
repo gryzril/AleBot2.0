@@ -1,0 +1,8 @@
+# ignore all .txt
+*.txt
+# ignore misc file
+**/misc
+# ignore env
+*.env
+# ignore.log
+*.log
