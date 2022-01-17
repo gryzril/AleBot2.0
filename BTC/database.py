@@ -17,8 +17,8 @@ print("Opened database successfully")
 #conn.execute('UPDATE BALANCE_SHEET set BALANCE = 1 where ID = ##################')
 #conn.execute('UPDATE BALANCE_SHEET set BALANCE = 1 where ID = ##################')
 #conn.execute('UPDATE BALANCE_SHEET set BALANCE = 1 where ID = ##################')
-#conn.execute('''INSERT INTO BALANCE_SHEET (BALANCE, ID)
-#VALUES (1, 0)''')
+conn.execute('''INSERT INTO BALANCE_SHEET (BALANCE, ID)
+VALUES (1, 746195541175828520)''')
 
 
 conn.commit()

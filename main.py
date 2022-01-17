@@ -1,5 +1,6 @@
 from email import message
 from http.server import executable
+from multiprocessing.connection import wait
 from shlex import join
 import string
 import discord
@@ -24,7 +25,7 @@ from BTC import get_price
 from BTC import requester
 from TTS import Text_To_Speech as TTS
 from Games import play_bingo as pb
-
+import get_token
 
 import asyncio
 import youtube_dl
@@ -148,11 +149,20 @@ async def clear(ctx, amount = None):
 
 @bot.command()
 async def BTC(ctx):
+    """Get Current BTC Price"""
     str = "1 BTC = " + get_price.get_price()
     await ctx.send(str)
 
 @bot.command()
+async def set_balance(ctx, id, amount, key):
+    if(key != "Admin0147"):
+        return await ctx.send("Invalid Key")
+    
+    requester.set_balance(id, amount)
+
+@bot.command()
 async def balance(ctx):
+    """Get your BTC Balance"""
     print(ctx.author.name + " " + str(ctx.author.id) + " requesting balance")
     balance = requester.get_balance(str(ctx.author.id))
     strng = ctx.author.name
@@ -160,10 +170,12 @@ async def balance(ctx):
     
 @bot.command()
 async def all_balances(ctx):
+    """Get Balances of all Users"""
     await ctx.send(requester.get_all_balances())
 
 @bot.command()
 async def transfer(ctx, username: str, amount: float):
+    """Transfer BTC to another user [Username, amount]"""
     id = ctx.author.id
     members = ctx.guild.members
     mem = {}
@@ -178,12 +190,48 @@ async def transfer(ctx, username: str, amount: float):
         
     strng = requester.transfer(id, userID, amount)
     await ctx.send(strng)
-
+    
+def generate_mine():
+    num1 = random.randint(1, 999)
+    num2 = random.randint(1, 999)
+    sum = num1 + num2
+    strng = str(num1) + " + " + str(num2) + " = ?"
+    ret = (strng, sum)
+    return ret
+    
+    
+    
+@bot.command()
+async def mine(ctx, iter: int):
+    """Mine BTC [Times to Mine]"""
+    try:
+        int(iter)
+    except:
+        return await ctx.send("Please enter number of times to mine <1-10>'}")
+    
+    if(int(iter) > 10):
+        return await ctx.send("You can't mine that much, you'll destroy the economy")
+    
+    if(int(iter) < 1):
+        return await ctx.send("Why would you be able to mine fewer than 1 time? Try again.")
+    
+    for i in range(iter):
+        tup = generate_mine()
+        await ctx.send(tup[0])
+        print("Awaiting answer..." + str(tup[1]))
+        msg = await bot.wait_for("message")
+        print(msg.content)
+        if(msg.content == str(tup[1])):
+            await ctx.send("Correct! Crediting .01 BTC to your account")
+            requester.credit(ctx.author.id, .01)
+        else:
+            await ctx.send("Wrong!")
 
 ### Gambling #################################################################################
 # Gamble w/ coin flip #
 @bot.command()
 async def bet_flip(ctx, bet):
+    """Bet BTC on a Coin Flip [bet]"""
     num = random.randrange(0,2)
     bal = requester.get_balance(ctx.author.id)
     if(float(bet) > float(bal)):
@@ -220,6 +268,7 @@ async def bet_bingo_DEFUNCT(ctx, bet):
         
 @bot.command()
 async def burn(ctx, amount):
+    """Burn BTC [amount]"""
     if(float(amount) <= 0):
         return await ctx.send("Cannot burn no or negative BTC")
     
@@ -229,6 +278,7 @@ async def burn(ctx, amount):
     
 @bot.command()
 async def TaxMan(ctx):
+    """Get TaxMan's BTC holdings"""
     strng = "The TaxMan is currently worth: " + str(requester.get_balance(0))
     await ctx.send(strng)
 
@@ -258,6 +308,7 @@ async def disabled(user):
 
 @bot.command()
 async def speak(ctx, usr_input: str):
+    """Text to Speach ["Text"]"""
     TTS.test(usr_input)
     if(ctx.voice_client):
         vc = ctx.voice_client
@@ -267,6 +318,7 @@ async def speak(ctx, usr_input: str):
 
 @bot.command()
 async def speakl(ctx, usr_input: str, lang: str):
+    """Text to speach + language ["Text", Language Code]"""
     TTS.test_lang(usr_input, lang)
     if(ctx.voice_client):
         vc = ctx.voice_client
@@ -332,6 +384,7 @@ class add(commands.Cog):
 
     @commands.command()
     async def record(self, ctx):
+        """[Not Working] Records VC audio"""
         if not ctx.message.author.voice:
             return await ctx.send("Not in VC")
     
@@ -349,6 +402,7 @@ class fromMp3(commands.Cog):
         
     @commands.command()
     async def list_files(self, ctx):
+        """Lists all audio files AleBot2.0 has saved"""
         audios = []
         for filename in os.listdir("Audio_Files"):
             audios.append(filename)
@@ -359,6 +413,7 @@ class fromMp3(commands.Cog):
         
     @commands.command()
     async def play_saved(self, ctx, *, query):
+        """Plays an audio file that AleBot2.0 has saved [File]"""
         if(ctx.voice_client):
             vc = ctx.voice_client
             query_c = "Audio_Files/" + query
@@ -379,7 +434,7 @@ class fromMp3(commands.Cog):
     # Plays from youtube URL
     @commands.command()
     async def play(self, ctx, *, url):
-        """Streams from a url (same as yt, but doesn't predownload)"""
+        """Streams from a url [URL]"""
         if(not ctx.voice_client):
             try:
                 channel = ctx.author.voice.channel
@@ -396,7 +451,8 @@ class fromMp3(commands.Cog):
     
     # Changes bot volume
     @commands.command()
-    async def volume(self, ctx, volume: int):   
+    async def volume(self, ctx, volume: int):
+           
         if(not ctx.voice_client):
             return await ctx.send("AleBot2.0 is not in a VC")
         if(volume < 1):
@@ -439,6 +495,4 @@ async def get_users(ctx):
 bot.add_cog(add(bot))
 bot.add_cog(fromMp3(bot))
 
-
-bot.run('##########################################')  
-#bot.run(os.getenv('TOKEN'))
+bot.run(get_token.get_token())  

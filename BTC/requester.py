@@ -13,12 +13,12 @@ def get_all_balances():
         #print("ID = " + str(row[0]))
         #print("BALANCE = " + str(row[1]))
         data[str(row[0])] = row[1]
-    
+        
     return data
 
 def get_balance(id):
     data = get_all_balances()
-    print(data)
+    #print(data)
     balance = data.get(str(id))
     print("returning " + str(id) + "" + str(balance))
     return balance
@@ -90,4 +90,15 @@ def debit(id, amount):
     conn.close()
     
     return "debit successful"
+    
+def set_balance(id, value):
+    conn = sl.connect('BTC/BTC_Database.db')
+    print("Setting balance")
+    
+    strng = 'UPDATE BALANCE_SHEET set BALANCE = ' + str(value) + ' where ID = ' + str(id)
+    
+    conn.execute(strng)
+    conn.commit()
+    conn.close()
+    
     
