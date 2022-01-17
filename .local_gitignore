@@ -8,3 +8,5 @@
 *.log
 # ignore get_token
 get_token.py
+# ignore .pyc files
+*.pyc
