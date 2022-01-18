@@ -5,9 +5,9 @@ Some commands include:
 
 Play audio from .mp3 files and Youtube:
   - get_volume        
-  - list_files        Lists all audio files AleBot2.0 has saved
-  - play              Streams from a url [URL]
-  - play_saved        Plays an audio file that AleBot2.0 has saved [File]
+  - list_files        - (Lists all audio files AleBot2.0 has saved)
+  - play              - (Streams from a url [URL])
+  - play_saved        - (Plays an audio file that AleBot2.0 has saved [File])
   - stop              
   - volume            
 
@@ -36,5 +36,5 @@ Misc:
   - speakl            - (Text to speach + language ["Text", Language Code])
   - test              
   
-  Admin function that requires key:
+  Override user's BTC balance {requires key}:
   - set_balance     
