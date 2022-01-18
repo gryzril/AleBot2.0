@@ -17,6 +17,7 @@ Virtual Bitcoin Economy:
   - TaxMan            - (Get TaxMan's BTC holdings)
   - all_balances      - (Get Balances of all Users)
   - balance           - (Get your BTC Balance)
+  - transfer          - (Transfer BTC to another user [Username, amount])
   - burn              - (Burn BTC [amount])
   - mine              - (Mine BTC [Times to Mine])
   Gambling:
@@ -35,7 +36,6 @@ Misc:
   - speak             - (Text to Speach ["Text"])
   - speakl            - (Text to speach + language ["Text", Language Code])
   - test              
-  - transfer          - (Transfer BTC to another user [Username, amount])
   
-  Admin function that requires key
-   -set_balance     
+  Admin function that requires key:
+  - set_balance     
