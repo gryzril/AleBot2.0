@@ -4,13 +4,12 @@ AleBot2.0 is the second iteration the Ale Discord Bot, this time written in Pyth
 Some commands include:
 
 Play audio from .mp3 files and Youtube:
-
-  -get_volume        
-  -list_files        Lists all audio files AleBot2.0 has saved
-  -play              Streams from a url [URL]
-  -play_saved        Plays an audio file that AleBot2.0 has saved [File]
-  -stop              
-  -volume            
+  - get_volume        
+  - list_files        Lists all audio files AleBot2.0 has saved
+  - play              Streams from a url [URL]
+  - play_saved        Plays an audio file that AleBot2.0 has saved [File]
+  - stop              
+  - volume            
 
 Virtual Bitcoin Economy:
   - BTC               - (Get Current BTC Price)
