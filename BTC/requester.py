@@ -42,8 +42,6 @@ def transfer(id, userID, amount):
     
     strng = 'UPDATE BALANCE_SHEET set BALANCE = ' + str(amount_final) + ' where ID = ' + str(userID)
     
-    #conn.execute('UPDATE BALANCE_SHEET set BALANCE = 1 where ID = 102968905990967296')
-    
     conn.execute(strng)
     
     amount_final2 = float(get_balance(id) - amount)
