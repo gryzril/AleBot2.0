@@ -40,7 +40,7 @@ from discord.utils import get
 
 
 # Description #
-description = "AleBot2.0. a new paradigm of discord bot"
+description = "AlexBot2.0. a new paradigm of discord bot"
 # Intents # 
 intents = discord.Intents.default()
 intents.members = True
@@ -102,7 +102,7 @@ async def join(ctx):
     try:
         channel = ctx.author.voice.channel
         await channel.connect()                                 # Async bot join channel
-        logger.info("AleBot2.0 has joined voice channel")
+        logger.info("AlexBot2.0 has joined voice channel")
     except:
        await ctx.send('You must be in a VC for AleBot2.0 to join')
     
@@ -111,11 +111,11 @@ async def join(ctx):
 async def kick(ctx):
     if(ctx.guild):
         await ctx.guild.voice_client.disconnect()
-        await ctx.send('AleBot2.0 has been booted')
-        logger.info("AleBot2.0 has been booted from VC")
+        await ctx.send('AlexBot2.0 has been booted')
+        logger.info("AlexBot2.0 has been booted from VC")
     else:                                                   # else print error
-        await ctx.send('AleBot isn\'t in a voice chat or never properly joined')
-        logger.info("Failed to boot AleBot2.0")
+        await ctx.send('AlexBot isn\'t in a voice chat or never properly joined')
+        logger.info("Failed to boot AlexBot2.0")
 
 @bot.command()
 async def pick(ctx):
@@ -297,7 +297,7 @@ async def on_member_join(self, member):
 #async def on_typing(channel, user, when):
 async def disabled(user):
     print("Someone is typing")
-    if(not user.bot):                                     # Don't respond if AleBot is typing
+    if(not user.bot):                                     # Don't respond if AlexBot is typing
         str = "Hey you, {0.mention}. I see you typing".format(user)
         message = await channel.send(str)
         await asyncio.sleep(1)
