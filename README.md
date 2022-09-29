@@ -1,5 +1,5 @@
 # AlexBot2.0
-AlexBot2.0 is the second iteration the Ale Discord Bot, this time written in Python using the Discord.py library.
+AlexBot2.0 is the second iteration the Alex Discord Bot, this time written in Python using the Discord.py library.
 
 Some commands include:
 
